@@ -5,7 +5,7 @@ import matplotlib.dates as m_dates
 from matplotlib.ticker import MaxNLocator, PercentFormatter
 
 def main():
-    tickers = 'AAL', 'DAL'
+    tickers = 'AAL', 'DAL', 'SPY', 'USO'
     frame: pd.DataFrame = yf.download(tickers, start='2026-01-01', end='2026-03-07')
 
     for ticker in tickers:
@@ -23,8 +23,8 @@ def main():
         frame[('Return', ticker)] = returns
 
     _, ax = plt.subplots(figsize=(6, 3))
-    ax.plot(frame['Return']['AAL'], label='AAL')
-    ax.plot(frame['Return']['DAL'], label='DAL')
+    for ticker in tickers:
+        ax.plot(frame['Return'][ticker], label=ticker)
     ax.xaxis.set_major_formatter(m_dates.DateFormatter('%m/%d'))
     ax.yaxis.set_major_formatter(PercentFormatter(1, 0))
     ax.set_title('AAL vs DAL')
